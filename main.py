@@ -1,19 +1,8 @@
 from kivymd.app import MDApp
 from kivymd.uix.screen import Screen
-# from kivymd.uix.textfield import MDTextField
+from kivymd.uix.button import MDRectangleFlatButton
 from kivy.lang import Builder
-
-username_helper = """
-MDTextField: 
-    hint_text: "Enter username"
-    helper_text: "or click on forgot username"
-    helper_text_mode: "on_focus"
-    icon_right : "android"
-    icon_right_color : app.theme_cls.primary_color
-    pos_hint: {'center_x':0.5,'center_y':0.5}
-    size_hint_x: None
-    width:300
-"""
+from helpers import username_helper
 
 
 class DemoApp(MDApp):
@@ -22,12 +11,18 @@ class DemoApp(MDApp):
         screen = Screen()
         self.theme_cls.primary_palette = "Blue"
         self.theme_cls.theme_style = "Dark"
-        # username = MDTextField(text='Enter username',
-        #                        pos_hint={'center_x':0.5,'center_y':0.5},
-        #                        size_hint_x=None, width=300)
-        username = Builder.load_string(username_helper)
-        screen.add_widget(username)
+
+        button = MDRectangleFlatButton(text='Show',
+                                       pos_hint={'center_x': 0.5, 'center_y': 0.4},
+                                       on_release=self.show_data)
+        self.username = Builder.load_string(username_helper)
+        screen.add_widget(self.username)
+        screen.add_widget(button)
         return screen
+
+    def show_data(self, obj):
+
+        print(self.username.text)
 
 
 DemoApp().run()
