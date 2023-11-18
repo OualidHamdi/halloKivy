@@ -1,27 +1,26 @@
 from kivymd.app import MDApp
-from kivymd.uix.screen import Screen
-from kivymd.uix.list import MDList, ThreeLineListItem
-from kivy.uix.scrollview import ScrollView
+from kivy.lang import Builder
+from kivymd.uix.list import OneLineListItem
+
+list_helper = """
+Screen:
+    ScrollView:
+        MDList:
+            id: container
+"""
 
 
 class DemoApp(MDApp):
 
     def build(self):
-        screen = Screen()
-        scroll = ScrollView()
-        list_view = MDList()
-        scroll.add_widget(list_view)
+        screen = Builder.load_string(list_helper)
 
-        for i in range(1, 21):
-            items = ThreeLineListItem(text='Item' + str(i),
-                                      secondary_text='Hello word',
-                                      tertiary_text='Third Text')
-            list_view.add_widget(items)
-
-
-
-        screen.add_widget(scroll)
         return screen
+
+    def on_start(self):
+        for i in range(1, 21):
+            items = OneLineListItem(text='Item ' + str(i))
+            self.root.ids.container.add_widget(items)
 
 
 DemoApp().run()
